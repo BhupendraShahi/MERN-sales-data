@@ -1,8 +1,8 @@
 import express from "express";
 import { getTransactions } from "../controllers/transactionController.js";
 import { getStatistics } from "../controllers/statisticsController.js";
-import { getBarChartData } from "../controllers/barchartController.js";
-import { getPieChartData } from "../controllers/piechartController.js";
+import { getBarChartData } from "../controllers/barChartController.js";
+import { getPieChartData } from "../controllers/pieChartController.js";
 import { getCombinedData } from "../controllers/combinedController.js"; 
 
 const router = express.Router();
