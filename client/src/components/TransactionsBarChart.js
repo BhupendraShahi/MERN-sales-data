@@ -21,7 +21,9 @@ ChartJS.register(
 );
 
 const TransactionsBarChart = () => {
-  const { barChartData, month, isLoading } = useSelector((state) => state.transactions);
+  const { barChartData, month, isLoading } = useSelector(
+    (state) => state.transactions
+  );
 
   const option = {
     responsive: true,
@@ -60,13 +62,20 @@ const TransactionsBarChart = () => {
     ],
   };
 
-  if(isLoading) {
-    return <div>Loading...</div>
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
-  
+
   return (
-    <div className="flex justify-center items-center w-full min-h-fit p-6">
-      <Bar options={option} data={data} />
+    <div className="flex flex-col w-full min-h-fit">
+      <div className="pb-6">
+        <h2 className="text-xl font-semibold mb-2">
+          Transactions Bar Chart - {monthOptions[month - 1]}
+        </h2>
+      </div>
+      <div className="pb-4">
+        <Bar options={option} data={data} />
+      </div>
     </div>
   );
 };

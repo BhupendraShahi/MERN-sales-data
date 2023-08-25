@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from "./config";
+import axiosInstance from "../config";
 
 export const fetchTransactions = createAsyncThunk('transactions/fetch', async ({month, searchQuery, page}) => {
   const response = await axiosInstance.get(`/api/transactions?month=${month}&page=${page}&search=${searchQuery}`);

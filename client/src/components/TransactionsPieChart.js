@@ -7,14 +7,16 @@ import { Pie } from "react-chartjs-2";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function TransactionsPieChart() {
-  const { pieChartData, month , isLoading } = useSelector((state) => state.transactions);
+  const { pieChartData, month, isLoading } = useSelector(
+    (state) => state.transactions
+  );
 
   const data = {
     labels: pieChartData.map((item) => item._id),
     datasets: [
       {
         label: "# of items",
-        
+
         data: pieChartData.map((item) => item.count),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
@@ -37,13 +39,20 @@ export default function TransactionsPieChart() {
     ],
   };
 
-  if(isLoading) {
-    return <div>Loading...</div>
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
   return (
     <div className="w-1/2 h-1/2">
-      <Pie data={data} />;
+      <div className="pb-4">
+        <h2 className="text-xl font-semibold mb-2">
+          Transactions Pie Chart - {monthOptions[month - 1]}
+        </h2>
+      </div>
+      <div className="pb-6">
+        <Pie data={data} />
+      </div>
     </div>
   );
 }

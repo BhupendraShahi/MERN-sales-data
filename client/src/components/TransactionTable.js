@@ -5,8 +5,8 @@ import {
   setPage,
   setSearchQuery,
   setMonth,
-} from "../transactionsSlice";
-import _ from "lodash";
+} from "../features/transactionsSlice";
+// import _ from "lodash";
 import { monthOptions } from "../utils";
 
 const TransactionsTable = () => {
@@ -15,24 +15,17 @@ const TransactionsTable = () => {
     (state) => state.transactions
   );
 
-  const debouncedFetchTransactions = _.debounce(
-    (month, searchQuery, page) => {
-      dispatch(fetchTransactions({ month, searchQuery, page }));
-    },
-    300
-  );
-
   useEffect(() => {
-    debouncedFetchTransactions(month, searchQuery, page);
+    dispatch(fetchTransactions({ month, searchQuery, page }));
   }, [month, searchQuery, page]);
 
   const handleSearchChange = (e) => {
     e.preventDefault();
     dispatch(setSearchQuery(e.target.value));
-    
   };
 
   const handleMonthChange = (e) => {
+    e.preventDefault();
     dispatch(setMonth(e.target.value));
   };
 
@@ -41,7 +34,9 @@ const TransactionsTable = () => {
   };
 
   const handleNextPage = () => {
-    dispatch(setPage(page + 1));
+    if (transactions.length > page*10) {
+      dispatch(setPage(page + 1));
+    }
   };
 
   if (isLoading) {
@@ -49,7 +44,12 @@ const TransactionsTable = () => {
   }
 
   return (
-    <div className="p-4 bg-white rounded shadow">
+    <div className="p-4 bg-white rounded shadow-2xl">
+      <div className="pb-6">
+        <h2 className="text-xl font-semibold mb-2">
+          Transactions Table - {monthOptions[month - 1]}
+        </h2>
+      </div>
       <div className="flex justify-between items-center mb-4">
         <input
           className="border rounded p-2"
@@ -87,7 +87,7 @@ const TransactionsTable = () => {
             <p className="w-4/12">{transaction.description}</p>
             <p className="w-1/12">${transaction.price.toFixed(2)}</p>
             <p className="w-2/12">{transaction.category}</p>
-            <img src={transaction.image} className="w-2/12" />
+            <img src={transaction.image} height={100} width={100} />
           </div>
         ))}
       </div>
@@ -99,6 +99,7 @@ const TransactionsTable = () => {
         >
           Previous
         </button>
+        <p>page <span className="text-gray-500">{page}</span>/{transactions.length>10 ? transactions.length/10 : '1'}</p>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
           onClick={handleNextPage}
