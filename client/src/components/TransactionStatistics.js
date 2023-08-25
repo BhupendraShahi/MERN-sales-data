@@ -5,18 +5,26 @@ import { monthOptions } from "../utils";
 
 const TransactionsStatistics = () => {
   const dispatch = useDispatch();
-  const { totalSaleAmount, totalSoldItems, totalNotSoldItems, month } = useSelector((state) => state.transactions);
+  const { totalSaleAmount, totalSoldItems, totalNotSoldItems, month, isLoading } = useSelector(
+    (state) => state.transactions
+  );
 
   useEffect(() => {
     dispatch(fetchCombinedData({ month }));
   }, [month]);
 
+  if(isLoading) {
+    return <div>Loading...</div>
+  }
+
   return (
-    <div>
-      <h1>Statistics - {monthOptions[month - 1]}</h1>
-      <p>Total Sale Amount: {totalSaleAmount}</p>
-      <p>Total Sold Items: {totalSoldItems}</p>
-      <p>Total Not Sold Items: {totalNotSoldItems}</p>
+    <div className="p-4 bg-white rounded shadow">
+      <h1 className="text-xl font-semibold mb-2">
+        Statistics - {monthOptions[month - 1]}
+      </h1>
+      <p className="mb-1">Total Sale Amount: ${totalSaleAmount}</p>
+      <p className="mb-1">Total Sold Items: {totalSoldItems}</p>
+      <p className="mb-1">Total Not Sold Items: {totalNotSoldItems}</p>
     </div>
   );
 };

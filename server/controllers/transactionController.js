@@ -22,6 +22,8 @@ export const getTransactions = async (req, res) => {
       query.$and.push({
         $expr: { $eq: [{ $month: "$dateOfSale" }, parseInt(month)] },
       });
+    } else{
+      res.json({message: "month is undefined"});
     }
 
     const transactions = await ProductTransaction.find(query)

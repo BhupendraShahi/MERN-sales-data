@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Bar } from "react-chartjs-2";
+import { monthOptions } from "../utils";
 import {
   BarElement,
   CategoryScale,
@@ -19,23 +20,8 @@ ChartJS.register(
   Legend
 );
 
-const monthOptions = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 const TransactionsBarChart = () => {
-  const { barChartData, month } = useSelector((state) => state.transactions);
+  const { barChartData, month, isLoading } = useSelector((state) => state.transactions);
 
   const option = {
     responsive: true,
@@ -43,7 +29,7 @@ const TransactionsBarChart = () => {
       legend: { position: "bottom" },
       title: {
         display: true,
-        text: `Bar Chart Stats - ${monthOptions[month-1]}`,
+        text: `Bar Chart Stats - ${monthOptions[month - 1]}`,
       },
     },
   };
@@ -63,7 +49,9 @@ const TransactionsBarChart = () => {
     ],
     datasets: [
       {
-        label: `No. of items in the price range for - ${monthOptions[month-1]}`,
+        label: `No. of items in the price range for - ${
+          monthOptions[month - 1]
+        }`,
         data: barChartData.map((item) => item.count),
         backgroundColor: "rgba(75, 192, 192, 0.5)",
         borderColor: "rgba(75, 192, 192, 1)",
@@ -71,8 +59,13 @@ const TransactionsBarChart = () => {
       },
     ],
   };
+
+  if(isLoading) {
+    return <div>Loading...</div>
+  }
+  
   return (
-    <div className="flex justify-center items-center w-1/2 h-1/2">
+    <div className="flex justify-center items-center w-full min-h-fit p-6">
       <Bar options={option} data={data} />
     </div>
   );

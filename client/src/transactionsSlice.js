@@ -20,6 +20,7 @@ const transactionsSlice = createSlice({
     totalSoldItems: 0,
     totalNotSoldItems: 0,
     barChartData: [],
+    pieChartData: [],
     isLoading: false,
     page: 1,
     perPage: 10,
@@ -61,6 +62,7 @@ const transactionsSlice = createSlice({
         state.totalSoldItems = action.payload.statistics.totalSoldItems;
         state.totalNotSoldItems = action.payload.statistics.totalNotSoldItems;
         state.barChartData = action.payload.barChartData;
+        state.pieChartData = action.payload.pieChartData;
       })
       .addCase(fetchCombinedData.rejected, (state, action) => {
         state.isLoading = false;
