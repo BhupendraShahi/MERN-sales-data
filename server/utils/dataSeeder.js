@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     );
 
     const seedData = response.data;
-
+      
     await ProductTransaction.deleteMany({});
     await ProductTransaction.insertMany(seedData);
 

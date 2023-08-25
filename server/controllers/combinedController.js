@@ -16,8 +16,8 @@ export const getCombinedData = async (req, res) => {
 
     const combinedData = {
       statistics: statisticsResponse.data,
-      barChart: barChartResponse.data,
-      pieChart: pieChartResponse.data,
+      barChartData: barChartResponse.data,
+      pieChartData: pieChartResponse.data,
     };
 
     res.json(combinedData);

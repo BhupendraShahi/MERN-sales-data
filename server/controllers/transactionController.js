@@ -28,7 +28,7 @@ export const getTransactions = async (req, res) => {
       .skip((page - 1) * perPage)
       .limit(perPage);
 
-    res.json(transactions);
+    res.json({transactions: transactions});
   } catch (error) {
     console.error("Error:", error);
     res

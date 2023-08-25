@@ -17,7 +17,7 @@ export const getBarChartData = async (req, res) => {
       { min: 901, max: Infinity },
     ];
 
-    const barChartData = {};
+    const barChartData = [];
 
     for (const range of priceRanges) {
       const matchQuery = {
@@ -32,8 +32,10 @@ export const getBarChartData = async (req, res) => {
         { $group: { _id: null, count: { $sum: 1 } } },
       ]);
 
-      barChartData[`range_${range.min}_${range.max}`] =
-        count.length > 0 ? count[0].count : 0;
+      barChartData.push({
+        range: `${range.min}-${range.max}`,
+        count: count.length > 0 ? count[0].count : 0,
+      });
     }
 
     res.json(barChartData);
